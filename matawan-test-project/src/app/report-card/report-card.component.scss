@@ -1,0 +1,11 @@
+@use "@angular/material" as mat;
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+.card {
+  max-width: 400px;
+}
+
+.header-image {
+  background-image: url("https://cdn2.iconfinder.com/data/icons/instagram-outline/19/11-512.png");
+  background-size: cover;
+}

@@ -1,12 +1,15 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { ReportInterface } from '../report-card/report.interface';
+import { ReportsService } from '../services/reports.service';
+import { throwError } from 'rxjs';
 
 
 
@@ -20,6 +23,7 @@ import { ReportInterface } from '../report-card/report.interface';
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatButtonModule
   ],
   providers: [
     MatDatepickerModule,
@@ -31,6 +35,8 @@ import { ReportInterface } from '../report-card/report.interface';
   styleUrl: './report-full-view.component.scss'
 })
 export class ReportFullViewComponent {
+
+
 
   report: ReportInterface;
   observations;
@@ -57,28 +63,77 @@ export class ReportFullViewComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<ReportFullViewComponent>,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private reportsService: ReportsService,
+    public dialog: MatDialog,
+
   ) {
-    this.report = data.report;
-    console.log("report", this.report)
+    console.log(data)
+    this.report = data.report ? data.report : undefined;
     this.observations = data.observations
 
   }
 
   ngAfterContentInit(): void {
-    //Called after ngOnInit when the component's or directive's content has been initialized.
-    //Add 'implements AfterContentInit' to the class.
-    
-    console.log("name",this.report.author.first_name)
+    if (this.report) {
+      this.reportFG.controls['firstNameFC'].setValue(this.report.author.first_name);
+      this.reportFG.controls['lastNameFC'].setValue(this.report.author.last_name);
+      this.reportFG.controls['emailFC'].setValue(this.report.author.email);
+      this.reportFG.controls['genderFC'].setValue(this.report.author.sex);
+      this.reportFG.controls['birthDateFC'].setValue(this.report.author.birth_date);
+      this.reportFG.controls['descriptionFC'].setValue(this.report.description);
+      this.reportFG.controls['observationsFC'].setValue(this.report.observations);
+    }
+    this.reportFG.controls['firstNameFC'].setValidators([Validators.required, Validators.maxLength(50)])
+    this.reportFG.controls['lastNameFC'].setValidators([Validators.required, Validators.maxLength(50)])
+    this.reportFG.controls['emailFC'].setValidators([Validators.required, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)])
+    this.reportFG.controls['genderFC'].setValidators([Validators.required])
+    this.reportFG.controls['birthDateFC'].setValidators([Validators.required])
+  }
 
-    this.reportFG.controls['firstNameFC'].setValue(this.report.author.first_name);
-    this.reportFG.controls['lastNameFC'].setValue(this.report.author.last_name);
-    this.reportFG.controls['emailFC'].setValue(this.report.author.email);
-    this.reportFG.controls['genderFC'].setValue(this.report.author.sex);
-    this.reportFG.controls['birthDateFC'].setValue(this.report.author.birth_date);
-    this.reportFG.controls['descriptionFC'].setValue(this.report.description);
-    if(!!this.report.observations) {
-      this.reportFG.controls['observationsFC'].setValue(this.report.observations.map((obs) => obs.id));
+  updateReport(): void {
+    const reportData: ReportInterface = {
+      id: this.report.id,
+      author: {
+        first_name: this.reportFG.value.firstNameFC!,
+        last_name: this.reportFG.value.lastNameFC!,
+        email: this.reportFG.value.emailFC!,
+        sex: this.reportFG.value.genderFC!,
+        birth_date: this.reportFG.value.birthDateFC!
+      },
+      description: this.reportFG.value.descriptionFC!,
+      observations: this.reportFG.value.observationsFC
+    }
+    if (this.reportFG.valid) {
+
+      this.reportsService.updateReport(reportData).subscribe(
+        () => this.dialog.closeAll()
+      )
+    } else {
+      alert("The form is invalid, please check it again")
+
+    }
+  }
+
+  createReport(): void {
+    const reportData: ReportInterface = {
+      author: {
+        first_name: this.reportFG.value.firstNameFC!,
+        last_name: this.reportFG.value.lastNameFC!,
+        email: this.reportFG.value.emailFC!,
+        sex: this.reportFG.value.genderFC!,
+        birth_date: this.reportFG.value.birthDateFC!
+      },
+      description: this.reportFG.value.descriptionFC ? this.reportFG.value.descriptionFC : '',
+      observations: this.reportFG.value.observationsFC
+    }
+    if (this.reportFG.valid) {
+
+      this.reportsService.createReport(reportData).subscribe(
+        () => this.dialog.closeAll()
+      )
+    } else {
+      alert("The form is invalid, please check it again")
     }
   }
 }

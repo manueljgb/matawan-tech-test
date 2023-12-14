@@ -19,7 +19,4 @@ export class ObservationsService {
     return this.http.get<any>(`${this.apiUrl}?id=${id}`);
   }
 
-  createObservation(ObservationData: ObservationInterface): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}`, ObservationData);
-  }
 }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, filter, map, switchMap, throwError } from 'rxjs';
 import { ReportInterface } from '../report-card/report.interface';
 
 @Injectable({
@@ -15,15 +15,26 @@ export class ReportsService {
     return this.http.get<any>(`${this.apiUrl}`);
   }
 
-  getReportById(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}?id=${id}`);
-  }
-
   createReport(reportData: ReportInterface): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}`, reportData);
+    return this.emailAlreadyExist(reportData.author.email).pipe(
+      switchMap((exists) => {
+        if (exists) {
+          alert('This email value already exist.');
+          return throwError({ status: 400, message: 'This value already exist.' });
+        } else {
+          return this.http.post<any>(`${this.apiUrl}`, reportData);
+        }
+      })
+    );
   }
 
-  updateReport(id: number, reportData: ReportInterface): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/reports/${id}`, reportData);
+  updateReport(reportData: ReportInterface): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${reportData.id}`, reportData);
+  }
+
+  emailAlreadyExist(email: string): Observable<boolean> {
+    return this.getReports().pipe(
+      map((reports: ReportInterface[]) => reports.some((report) => report.author.email === email))
+    );
   }
 }

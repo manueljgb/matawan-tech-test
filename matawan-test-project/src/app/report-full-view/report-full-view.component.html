@@ -1,17 +1,35 @@
 <form [formGroup]="reportFG" action="">
   <section>
+    @if (!!data.report) {
+    <h1>Edit report</h1>
+    } @else {
+    <h1>Create new report</h1>
+    }
+  </section>
+  <section>
     <h2>Author Data</h2>
     <mat-form-field appearance="fill">
       <mat-label>First Name</mat-label>
       <input [formControl]="firstNameFC" matInput placeholder="First Name" />
+      @if (firstNameFC.invalid) {
+      <mat-error>Max 50 characters allowed.</mat-error>
+      }
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Last Name</mat-label>
       <input [formControl]="lastNameFC" matInput placeholder="Last Name" />
+      @if (lastNameFC.invalid) {
+      <mat-error>Max 50 characters allowed.</mat-error>
+      }
     </mat-form-field>
     <mat-form-field appearance="fill">
       <mat-label>Email</mat-label>
       <input [formControl]="emailFC" matInput placeholder="Email" />
+      @if (emailFC.invalid) {
+      <mat-error
+        >Email has to fit the format: "example{{ "@" }}example.ex".</mat-error
+      >
+      }
     </mat-form-field>
     <mat-form-field>
       <mat-label>Gender</mat-label>
@@ -35,13 +53,20 @@
         [for]="picker"
       ></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
+      @if (birthDateFC.invalid) {
+      <mat-error>Author cannot be older than 100 years.</mat-error>
+      }
     </mat-form-field>
   </section>
   <section>
     <h2>Description</h2>
     <mat-form-field>
       <mat-label>Description</mat-label>
-      <textarea [formControl]="descriptionFC" matInput placeholder="Description"></textarea>
+      <textarea
+        [formControl]="descriptionFC"
+        matInput
+        placeholder="Description"
+      ></textarea>
     </mat-form-field>
   </section>
   <section>
@@ -54,5 +79,14 @@
         }
       </mat-select>
     </mat-form-field>
+  </section>
+  <section>
+    @if (!!data.report) {
+
+    <button mat-button (click)="updateReport()">Update</button>
+    } @else {
+
+    <button mat-button (click)="createReport()">Create</button>
+    }
   </section>
 </form>

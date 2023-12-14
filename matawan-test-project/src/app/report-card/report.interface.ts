@@ -1,7 +1,7 @@
 import { ObservationInterface } from "./observation.interface"
 
 export interface ReportInterface {
-    id: number,
+    id?: number,
     author: {
         first_name: string,
         last_name: string,
@@ -10,6 +10,6 @@ export interface ReportInterface {
         email: string
     },
     description: string,
-    observations?: ObservationInterface[]
+    observations: number[]
 }
 

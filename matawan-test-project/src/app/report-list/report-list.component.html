@@ -1,8 +1,12 @@
 <div class="header">
-  <h1>Reports</h1>
-  <p>Check, create or modify people reports</p>
+  <div class="text">
+
+    <h1>Reports</h1>
+    <p>Check, create or modify people reports</p>
+  </div>
+  <button mat-button (click)="openCreateNewDialog()">Create new report</button>
 </div>
-<div class="card">
+<div class="cards">
   <mat-accordion>
     @for (report of reports; track report.id) {
     <app-report-card [report]="report"></app-report-card>

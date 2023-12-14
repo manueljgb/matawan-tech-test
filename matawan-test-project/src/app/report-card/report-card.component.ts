@@ -53,20 +53,16 @@ export class ReportCardComponent implements AfterContentInit {
 
   age?: number;
 
-  currentObservations: ObservationInterface[] = [];
+  currentObservations: number[] = [];
   allObservations: ObservationInterface[] = [];
 
 
 
   constructor(private obsService: ObservationsService,
     public dialog: MatDialog,
-  ) {
-    // this.obsService.getObservations().subscribe((response) => this.allObservations = response).unsubscribe();
-  }
+  ) { }
 
   ngAfterContentInit(): void {
-    //Called after ngOnInit when the component's or directive's content has been initialized.
-    //Add 'implements AfterContentInit' to the class.
     this.obsService.getObservations().subscribe((response) => this.allObservations = response);
     this.age = this.currentAgeFrom(this.report.author.birth_date);
     if (!!this.report.observations) {
@@ -108,14 +104,20 @@ export class ReportCardComponent implements AfterContentInit {
    * @param obsID Observation 
    */
   belongsToCurrentObservations(obs: ObservationInterface): boolean {
-    return this.currentObservations.some((curr) => curr.id === obs.id);
+    if (!!obs) {
+      return this.currentObservations.some((curr) => curr === obs.id);
+    } else {
+      return false;
+    }
   }
 
   openEditDialog(): void {
     const dialogRef = this.dialog.open(ReportFullViewComponent, {
-      data: {report: this.report, observations: this.allObservations},
+      data: { report: this.report, observations: this.allObservations },
       height: '80%',
       width: '80%',
+    }).afterClosed().subscribe(() => {
+      window.location.reload();
     });
   }
 }

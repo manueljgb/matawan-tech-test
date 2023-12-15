@@ -1,17 +1,20 @@
-<div class="header">
-  <div class="text">
-
-    <h1>Reports</h1>
-    <p>Check, create or modify people reports</p>
+<div class="container">
+  <div class="header">
+    <div class="text">
+      <h1>Reports</h1>
+      <p>Check, create or modify reports</p>
+    </div>
+    <button mat-button (click)="openCreateNewDialog()">
+      Create new report
+    </button>
   </div>
-  <button mat-button (click)="openCreateNewDialog()">Create new report</button>
-</div>
-<div class="cards">
-  <mat-accordion>
-    @for (report of reports; track report.id) {
-    <app-report-card [report]="report"></app-report-card>
-    } @empty {
-    <div class="no-results">No results</div>
-    }
-  </mat-accordion>
+  <div class="cards">
+    <mat-accordion>
+      @for (report of reports; track report.id) {
+      <app-report-card [report]="report"></app-report-card>
+      } @empty {
+      <div class="no-results"><p>No previous reports found.</p></div>
+      }
+    </mat-accordion>
+  </div>
 </div>

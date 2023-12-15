@@ -1,0 +1,45 @@
+.container {
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 15vh;
+  background-color: #f0f0c9;
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+
+    .text {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      h1 {
+        font-size: 42px;
+        font-weight: 700;
+        color: #9738f1;
+        text-shadow: 2px -1px 2px #6161617b;
+      }
+      p {
+        font-size: 18px;
+        font-weight: 500;
+      }
+    }
+    button {
+      width: 250px;
+      background-color: #9738f1;
+      color: white;
+    }
+  }
+
+  .cards {
+    max-width: 90vw;
+  }
+
+  .no-results {
+    font-size: 22px;
+    font-weight: 500;
+    text-align: center;
+  }
+}

@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, Input } from '@angular/core';
+import { AfterContentInit, Component, HostListener, Input } from '@angular/core';
 import { ReportInterface } from './report.interface';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -48,6 +48,13 @@ import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
   styleUrl: './report-card.component.scss'
 })
 export class ReportCardComponent implements AfterContentInit {
+
+  isMobile = window.innerWidth < 1188;
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.isMobile = window.innerWidth < 1188;
+  }
 
   @Input() report!: ReportInterface;
 

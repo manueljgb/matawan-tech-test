@@ -1,11 +1,56 @@
-@use "@angular/material" as mat;
-@import "@angular/material/prebuilt-themes/indigo-pink.css";
 
-.card {
-  max-width: 400px;
-}
+.card-container {
+  margin-bottom: 15px;
+  .card {
+    border: 1px solid #9738f1;
+    .mat-expansion-panel-spacing {
+      margin: 0;
+    }
+    .header-image {
+      background-image: url("https://cdn2.iconfinder.com/data/icons/instagram-outline/19/11-512.png");
+      background-size: cover;
+    }
+    .mat-expansion-panel-header {
+      min-height: 50px;
+      height: max-content;
+      padding-bottom: 5px;
+    }
 
-.header-image {
-  background-image: url("https://cdn2.iconfinder.com/data/icons/instagram-outline/19/11-512.png");
-  background-size: cover;
+    .mat-content {
+      overflow: visible;
+    }
+    mat-card-header {
+      padding-left: 0;
+    }
+    mat-panel-title {
+      flex-wrap: wrap;
+      font-size: 19px;
+      .name {
+        margin-right: 10px;
+      }
+      .mail {
+        font-size: 15px;
+        color: #6c6c6c;
+      }
+    }
+
+    mat-card-content {
+      section {
+        margin-bottom: 35px;
+      }
+      h2 {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+    }
+    mat-card-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+  .mat-primary:not(.mdc-evolution-chip--disabled) {
+    background-color: #9738f1;
+    color: white;
+  }
 }

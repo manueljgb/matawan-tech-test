@@ -116,8 +116,10 @@ export class ReportCardComponent implements AfterContentInit {
       data: { report: this.report, observations: this.allObservations },
       height: '80%',
       width: '80%',
-    }).afterClosed().subscribe(() => {
-      window.location.reload();
+    }).afterClosed().subscribe((result) => {
+      if (!!result && result.action === 'reload') {
+        window.location.reload();
+      }
     });
   }
 }

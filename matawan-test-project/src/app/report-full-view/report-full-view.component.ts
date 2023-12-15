@@ -107,7 +107,10 @@ export class ReportFullViewComponent {
     if (this.reportFG.valid) {
 
       this.reportsService.updateReport(reportData).subscribe(
-        () => this.dialog.closeAll()
+        () => {
+          alert("The report has been modified successfully")
+          this.dialogRef.close({ action: 'reload' })
+        }
       )
     } else {
       alert("The form is invalid, please check it again")
@@ -130,7 +133,10 @@ export class ReportFullViewComponent {
     if (this.reportFG.valid) {
 
       this.reportsService.createReport(reportData).subscribe(
-        () => this.dialog.closeAll()
+        () => {
+          alert("The report has been created successfully")
+          this.dialogRef.close({ action: 'reload' });
+        }
       )
     } else {
       alert("The form is invalid, please check it again")

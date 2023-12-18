@@ -122,7 +122,8 @@ export class ReportCardComponent implements AfterContentInit {
     const dialogRef = this.dialog.open(ReportFullViewComponent, {
       data: { report: this.report, observations: this.allObservations },
       height: '80%',
-      width: '80%',
+      width: '40%',
+      minWidth: '300px'
     }).afterClosed().subscribe((result) => {
       if (!!result && result.action === 'reload') {
         window.location.reload();

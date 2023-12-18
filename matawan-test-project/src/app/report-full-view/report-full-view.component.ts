@@ -130,7 +130,7 @@ export class ReportFullViewComponent {
       description: this.reportFG.value.descriptionFC ? this.reportFG.value.descriptionFC : '',
       observations: this.reportFG.value.observationsFC
     }
-    if (this.reportFG.valid) {
+    if (this.reportFG.touched && this.reportFG.valid) {
 
       this.reportsService.createReport(reportData).subscribe(
         () => {

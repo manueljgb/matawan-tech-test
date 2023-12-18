@@ -1,2 +1,21 @@
-@use "@angular/material" as mat;
-@import "@angular/material/prebuilt-themes/indigo-pink.css";
+form {
+  padding: 20px;
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #9738f1;
+  }
+  .text-fields,
+  .pickers {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+  .button-section {
+    text-align: center;
+  }
+}

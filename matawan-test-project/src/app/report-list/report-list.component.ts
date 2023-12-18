@@ -43,9 +43,12 @@ export class ReportListComponent {
     const dialogRef = this.dialog.open(ReportFullViewComponent, {
       data: { observations: this.allObservations },
       height: '80%',
-      width: '80%',
-    }).afterClosed().subscribe(() => {
-      window.location.reload();
+      width: '40%',
+      minWidth: '300px'
+    }).afterClosed().subscribe((result) => {
+      if (!!result && result.action === 'reload') {
+        window.location.reload();
+      }
     });
   }
 

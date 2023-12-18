@@ -28,7 +28,9 @@
         <input [formControl]="emailFC" matInput placeholder="Email" />
         @if (emailFC.invalid) {
         <mat-error
-           >Required. The email has to fit the format: "example{{ "@" }}example.ex".</mat-error
+          >Required. The email has to fit the format: "example{{
+            "@"
+          }}example.ex".</mat-error
         >
         }
       </mat-form-field>

@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { ReportInterface } from '../report-card/report.interface';
 import { ReportsService } from '../services/reports.service';
 import { throwError } from 'rxjs';
@@ -28,7 +28,7 @@ import { throwError } from 'rxjs';
   providers: [
     MatDatepickerModule,
     MatNativeDateModule,
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+    { provide: MAT_DATE_LOCALE, useValue: 'fr' }
   ],
 
   templateUrl: './report-full-view.component.html',
@@ -62,6 +62,8 @@ export class ReportFullViewComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
+    private _adapter: DateAdapter<any>,
+    @Inject(MAT_DATE_LOCALE) private _locale: string,
     public dialogRef: MatDialogRef<ReportFullViewComponent>,
     private formBuilder: FormBuilder,
     private reportsService: ReportsService,
@@ -71,6 +73,8 @@ export class ReportFullViewComponent {
     console.log(data)
     this.report = data.report ? data.report : undefined;
     this.observations = data.observations
+    this._locale = 'fr';
+    this._adapter.setLocale(this._locale);
 
   }
 
